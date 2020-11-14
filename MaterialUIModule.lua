@@ -1457,16 +1457,11 @@ function Material.Load(Config)
 				table.foreach(ChipSetOptions, function(Key, Value)
 					if typeof(Value) == "table" then
 						BuildTable[Key] = Value.Enabled
-						getgenv()[Key] = Value.Enabled
 					else
 						BuildTable[Key] = Value
-						getgenv()[Key] = Value
 					end
 				end)
 
-				config[ChipSetText] = BuildTable
-				getgenv[ChipSetText] = BuildTable
-				saveConfig()
 				ChipSetCallback(BuildTable)
 
 				TweenService:Create(ChipSet, TweenInfo.new(0.5), {ImageTransparency = 0.9}):Play()
@@ -1579,9 +1574,6 @@ function Material.Load(Config)
 						end
 					end)
 
-					config[ChipSetText] = BuildTable	
-					getgenv[ChipSetText] = BuildTable
-					saveConfig()
 					ChipSetCallback(BuildTable)
 
 					TweenService:Create(ChipSet, TweenInfo.new(0.5), {ImageTransparency = 0.9}):Play()
@@ -1648,6 +1640,7 @@ function Material.Load(Config)
 							end
 							config[ChipSetText] = BuildTable[Key]
 							getgenv[ChipSetText] = BuildTable[Key]
+							warn("LOL")
 							saveConfig()
 							ChipSetCallback(BuildTable)
 						end)
