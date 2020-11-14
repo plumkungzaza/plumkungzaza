@@ -1530,9 +1530,7 @@ function Material.Load(Config)
 						if ChipMenu then
 							TweenService:Create(ChipMenu, TweenInfo.new(0.15), {ImageColor3 = Enabled and Theme.ChipSetAccent or Theme.ChipSet}):Play()
 						end
-						config[ChipSetText] = BuildTable	
-						warn(unpack(BuildTable))			
-						warn("XD")
+						config[ChipSetText] = Enabled	
 						saveConfig()
 						ChipSetCallback(BuildTable)
 					end)
@@ -1647,6 +1645,7 @@ function Material.Load(Config)
 							if ChipMenu then
 								TweenService:Create(ChipMenu, TweenInfo.new(0.15), {ImageColor3 = Enabled and Theme.ChipSetAccent or Theme.ChipSet}):Play()
 							end
+							warn("OK")
 							ChipSetCallback(BuildTable)
 						end)
 					end)
