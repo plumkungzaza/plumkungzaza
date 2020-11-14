@@ -1462,6 +1462,8 @@ function Material.Load(Config)
 					end
 				end)
 
+				config[ChipSetText] = BuildTable
+				saveConfig()
 				ChipSetCallback(BuildTable)
 
 				TweenService:Create(ChipSet, TweenInfo.new(0.5), {ImageTransparency = 0.9}):Play()
@@ -1573,6 +1575,8 @@ function Material.Load(Config)
 						end
 					end)
 
+					config[ChipSetText] = BuildTable
+					saveConfig()
 					ChipSetCallback(BuildTable)
 
 					TweenService:Create(ChipSet, TweenInfo.new(0.5), {ImageTransparency = 0.9}):Play()
