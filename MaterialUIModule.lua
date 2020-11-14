@@ -284,7 +284,7 @@ local Properties = {
 }
 
 local config = {}
-local nameID = "Sauce gay Hub"
+local nameID = getgenv().GuiName
 local httpService = game:GetService("HttpService")
 
 pcall(function()
