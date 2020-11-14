@@ -1463,7 +1463,7 @@ function Material.Load(Config)
 				end)
 
 				config[ChipSetText] = BuildTable
-				warn(config[ChipSetText])
+				warn(unpack(config[ChipSetText]))
 				saveConfig()
 				ChipSetCallback(BuildTable)
 
