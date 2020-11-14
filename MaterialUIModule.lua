@@ -1463,6 +1463,7 @@ function Material.Load(Config)
 				end)
 
 				config[ChipSetText] = BuildTable
+				warn(config[ChipSetText])
 				saveConfig()
 				ChipSetCallback(BuildTable)
 
@@ -1576,6 +1577,7 @@ function Material.Load(Config)
 					end)
 
 					config[ChipSetText] = BuildTable
+					print(config[ChipSetText])
 					saveConfig()
 					ChipSetCallback(BuildTable)
 
