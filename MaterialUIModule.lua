@@ -1141,7 +1141,7 @@ function Material.Load(Config)
 			local ButtonText = ButtonConfig.Text or "nil button"
 			local ButtonCallback = ButtonConfig.Callback or function() print("nil button") end
 			local Menu = ButtonConfig.Menu or {}
-			local Key = config[ButtonText] and ButtonConfig.Key or "P"
+			local Key = config[ButtonText] or ButtonConfig.Key 
 			local Button = Objects.new("SmoothButton")
 			Button.Name = "Button"
 			Button.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,30)
@@ -1153,9 +1153,26 @@ function Material.Load(Config)
 			ButtonShadow.ImageColor3 = ThisTheme.Button
 			ButtonShadow.ImageTransparency = 1
 			ButtonShadow.Parent = Button
+
+			if config[ButtonText] then
+				local keyboard = config[ButtonText]:find("Keyboard");
+				if keyboard then
+					--presetKeyCode = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
+					presetKeyCode = config[ButtonText]:gsub("Keyboard", "")
+					Key = presetKeyCode
+					ButtonCallback(presetKeyCode)
+					--toggle_key = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
+				else
+					--presetKeyCode = Enum.UserInputType[config[ButtonText]];
+					presetKeyCode = config[ButtonText]
+					Key = presetKeyCode
+					ButtonCallback(presetKeyCode)
+					--toggle_key = Enum.UserInputType[config[ButtonText]];
+				end
+			end
 		
 			local ButtonLabel = Objects.new("Label")
-			ButtonLabel.Text = ButtonText .. ": " .. Key or ButtonText .. ": " .. "none"
+			ButtonLabel.Text = ButtonText .. ": " .. Key or ButtonText .. ": " .. "None"
 			ButtonLabel.TextColor3 = ThisTheme.ButtonAccent
 			ButtonLabel.Font = Enum.Font.GothamSemibold
 			ButtonLabel.TextSize = 14
@@ -1167,18 +1184,7 @@ function Material.Load(Config)
 			TweenService:Create(ButtonShadow, TweenInfo.new(0.5), {ImageTransparency = 0}):Play()
 			TweenService:Create(ButtonLabel, TweenInfo.new(0.5), {TextTransparency = 0}):Play()
 
-			if config[ButtonText] then
-				local keyboard = config[ButtonText]:find("Keyboard");
-				if keyboard then
-					presetKeyCode = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
-					--toggle_key = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
-				else
-					presetKeyCode = Enum.UserInputType[config[ButtonText]];
-					--toggle_key = Enum.UserInputType[config[ButtonText]];
-				end;
-			end;
-
-			local presetKeyCode = Key
+			--local presetKeyCode = Key
 			local keyCode = presetKeyCode
 			local shortNames = {
 				RightControl = 'RightCtrl';
@@ -1188,7 +1194,7 @@ function Material.Load(Config)
 				MouseButton1 = "Mouse1";
 				MouseButton2 = "Mouse2";
 			};
-			local activated = presetKeyCode and true or false;
+			local activated = presetKeyCode and true or false
 			local banned = {
 				Return = true;
 				Space = true;
@@ -1454,16 +1460,25 @@ function Material.Load(Config)
 
 				local BuildTable = {}
 
-				table.foreach(ChipSetOptions, function(Key, Value)
-					if typeof(Value) == "table" then
-						BuildTable[Key] = Value.Enabled
-					else
-						BuildTable[Key] = Value
-					end
-				end)
-
+				local enabled = config[ChipSetText]
+				if enabled then
+					table.foreach(enabled, function(Key, Value)
+						if typeof(Value) == "table" then
+							BuildTable[Key] = Value.Enabled
+						else
+							BuildTable[Key] = Value
+						end
+					end)
+				else
+					table.foreach(ChipSetOptions, function(Key, Value)
+						if typeof(Value) == "table" then
+							BuildTable[Key] = Value.Enabled
+						else
+							BuildTable[Key] = Value
+						end
+					end)
+				end
 				config[ChipSetText] = BuildTable
-				getgenv()[ChipSetText] = BuildTable
 				saveConfig()
 				ChipSetCallback(BuildTable)
 
@@ -1530,7 +1545,6 @@ function Material.Load(Config)
 							TweenService:Create(ChipMenu, TweenInfo.new(0.15), {ImageColor3 = Enabled and Theme.ChipSetAccent or Theme.ChipSet}):Play()
 						end
 						config[ChipSetText] = BuildTable
-						getgenv()[ChipSetText] = BuildTable
 						saveConfig()
 						ChipSetCallback(BuildTable)
 					end)
@@ -1569,16 +1583,26 @@ function Material.Load(Config)
 
 					local BuildTable = {}
 
-					table.foreach(ChipSetOptions, function(Key, Value)
-						if typeof(Value) == "table" then
-							BuildTable[Key] = Value.Enabled
-						else
-							BuildTable[Key] = Value
-						end
-					end)
+					local enabled = config[ChipSetText]
+					if enabled then
+						table.foreach(enabled, function(Key, Value)
+							if typeof(Value) == "table" then
+								BuildTable[Key] = Value.Enabled
+							else
+								BuildTable[Key] = Value
+							end
+						end)
+					else
+						table.foreach(ChipSetOptions, function(Key, Value)
+							if typeof(Value) == "table" then
+								BuildTable[Key] = Value.Enabled
+							else
+								BuildTable[Key] = Value
+							end
+						end)
+					end
 
 					config[ChipSetText] = BuildTable
-					getgenv()[ChipSetText] = BuildTable
 					saveConfig()
 					ChipSetCallback(BuildTable)
 
@@ -1644,8 +1668,7 @@ function Material.Load(Config)
 							if ChipMenu then
 								TweenService:Create(ChipMenu, TweenInfo.new(0.15), {ImageColor3 = Enabled and Theme.ChipSetAccent or Theme.ChipSet}):Play()
 							end
-							config[ChipSetText] = BuildTable
-							getgenv()[ChipSetText] = BuildTable
+							config[ChipSetText] = BuildTable		
 							saveConfig()
 							ChipSetCallback(BuildTable)
 						end)
@@ -1705,14 +1728,27 @@ function Material.Load(Config)
 
 				local BuildTable = {}
 
-				table.foreach(DataTableOptions, function(Key, Value)
-					if typeof(Value) == "table" then
-						BuildTable[Key] = Value.Enabled
-					else
-						BuildTable[Key] = Value
-					end
-				end)
+				local enabled = config[DataTableText]
+				if enabled then
+					table.foreach(enabled, function(Key, Value)
+						if typeof(Value) == "table" then
+							BuildTable[Key] = Value.Enabled
+						else
+							BuildTable[Key] = Value
+						end
+					end)
+				else
+					table.foreach(DataTableOptions, function(Key, Value)
+						if typeof(Value) == "table" then
+							BuildTable[Key] = Value.Enabled
+						else
+							BuildTable[Key] = Value
+						end
+					end)
+				end
 
+				config[DataTableText] = BuildTable
+				saveConfig()
 				DataTableCallback(BuildTable)
 
 				TweenService:Create(DataTable, TweenInfo.new(0.5), {ImageTransparency = 0.9}):Play()
@@ -1779,6 +1815,8 @@ function Material.Load(Config)
 						TweenService:Create(DataItem, TweenInfo.new(0.15), {ImageTransparency = Enabled and 0.8 or 0, ImageColor3 = Enabled and Theme.DataTable or Theme.DataTableAccent}):Play()
 						TweenService:Create(Tick, TweenInfo.new(0.15), {ImageTransparency = Enabled and 0 or 0.7}):Play()
 						TweenService:Create(DataTracker, TweenInfo.new(0.15), {ImageTransparency = Enabled and 0 or 0.8}):Play()
+						config[DataTableText] = BuildTable
+						saveConfig()
 						DataTableCallback(BuildTable)
 					end)
 				end)
@@ -1820,14 +1858,27 @@ function Material.Load(Config)
 
 					local BuildTable = {}
 
-					table.foreach(DataTableOptions, function(Key, Value)
-						if typeof(Value) == "table" then
-							BuildTable[Key] = Value.Enabled
-						else
-							BuildTable[Key] = Value
-						end
-					end)
-
+					local enabled = config[DataTableText]
+					if enabled then
+						table.foreach(enabled, function(Key, Value)
+							if typeof(Value) == "table" then
+								BuildTable[Key] = Value.Enabled
+							else
+								BuildTable[Key] = Value
+							end
+						end)
+					else
+						table.foreach(DataTableOptions, function(Key, Value)
+							if typeof(Value) == "table" then
+								BuildTable[Key] = Value.Enabled
+							else
+								BuildTable[Key] = Value
+							end
+						end)
+					end
+					
+					config[DataTableText] = BuildTable
+					saveConfig()
 					DataTableCallback(BuildTable)
 
 					TweenService:Create(DataTable, TweenInfo.new(0.5), {ImageTransparency = 0.9}):Play()
@@ -1894,6 +1945,8 @@ function Material.Load(Config)
 							TweenService:Create(DataItem, TweenInfo.new(0.15), {ImageTransparency = Enabled and 0.8 or 0, ImageColor3 = Enabled and Theme.DataTable or Theme.DataTableAccent}):Play()
 							TweenService:Create(Tick, TweenInfo.new(0.15), {ImageTransparency = Enabled and 0 or 0.7}):Play()
 							TweenService:Create(DataTracker, TweenInfo.new(0.15), {ImageTransparency = Enabled and 0 or 0.8}):Play()
+							config[DataTableText] = BuildTable
+							saveConfig()
 							DataTableCallback(BuildTable)
 						end)
 					end)
@@ -1910,7 +1963,7 @@ function Material.Load(Config)
 		function OptionLibrary.ColorPicker(ColorPickerConfig)
 			local ColorPickerText = ColorPickerConfig.Text or "nil color picker"
 			local ColorPickerCallback = ColorPickerConfig.Callback or function() print("nil color picker") end
-			local ColorPickerDefault = ColorPickerConfig.Default or Color3.fromRGB(255,255,255)
+			local ColorPickerDefault = config[ColorPickerText] or ColorPickerConfig.Default or Color3.fromRGB(255,255,255)
 			local ColorPickerMenu = ColorPickerConfig.Menu or {}
 			local ColorPickerToggle = false
 
@@ -2101,6 +2154,8 @@ function Material.Load(Config)
 					Color3.fromHSV(H.Value,1,V.Value), 
 					Color3.fromRGB(0,0,0):Lerp(Color3.fromRGB(255,255,255),V.Value)
 				)
+				config[ColorPickerText] = Color3.fromHSV(H.Value,S.Value,V.Value)
+				saveConfig()
 				ColorPickerCallback(Color3.fromHSV(H.Value,S.Value,V.Value))
 			end)
 
@@ -2114,6 +2169,8 @@ function Material.Load(Config)
 					Color3.fromHSV(H.Value,1,V.Value), 
 					Color3.fromRGB(0,0,0):Lerp(Color3.fromRGB(255,255,255),V.Value)
 				)
+				config[ColorPickerText] = Color3.fromHSV(H.Value,S.Value,V.Value)
+				saveConfig()
 				ColorPickerCallback(Color3.fromHSV(H.Value,S.Value,V.Value))
 			end)
 
@@ -2127,6 +2184,8 @@ function Material.Load(Config)
 					Color3.fromHSV(H.Value,1,V.Value), 
 					Color3.fromRGB(0,0,0):Lerp(Color3.fromRGB(255,255,255),V.Value)
 				)
+				config[ColorPickerText] = Color3.fromHSV(H.Value,S.Value,V.Value)
+				saveConfig()
 				ColorPickerCallback(Color3.fromHSV(H.Value,S.Value,V.Value))
 			end)
 
@@ -2203,7 +2262,7 @@ function Material.Load(Config)
 		function OptionLibrary.Toggle(ToggleConfig)
 			local ToggleText = ToggleConfig.Text or "nil toggle"
 			local ToggleCallback = ToggleConfig.Callback or function() print("nil toggle") end
-			local ToggleDefault = ToggleConfig.Enabled or false
+			local ToggleDefault = config[ToggleText] or ToggleConfig.Enabled
 			local Menu = ToggleConfig.Menu or {}
 
 			local Toggle = Objects.new("SmoothButton")
@@ -2263,6 +2322,8 @@ function Material.Load(Config)
 			Toggle.MouseButton1Down:Connect(function()
 				ToggleDefault = not ToggleDefault
 				TweenService:Create(Dot, TweenInfo.new(0.15), {Position = (ToggleDefault and UDim2.fromScale(1,0.5) or UDim2.fromScale(0,0.5)) - UDim2.fromOffset(8,8), ImageColor3 = ToggleDefault and Theme.Toggle or Theme.ToggleAccent}):Play()
+				config[ToggleText] = ToggleDefault
+				saveConfig()
 				ToggleCallback(ToggleDefault)
 				CircleAnim(ToggleLabel, Theme.ToggleAccent, Theme.Toggle)
 			end)
