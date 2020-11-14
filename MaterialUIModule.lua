@@ -1648,7 +1648,6 @@ function Material.Load(Config)
 							end
 							config[ChipSetText] = BuildTable[Key]
 							getgenv[ChipSetText] = BuildTable[Key]
-							warn("Test")
 							saveConfig()
 							ChipSetCallback(BuildTable)
 						end)
