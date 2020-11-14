@@ -1463,7 +1463,7 @@ function Material.Load(Config)
 				end)
 
 				config[ChipSetText] = BuildTable
-				warn(unpack(config[ChipSetText]))
+				getgenv()[ChipSetText] = BuildTable
 				saveConfig()
 				ChipSetCallback(BuildTable)
 
@@ -1530,6 +1530,7 @@ function Material.Load(Config)
 							TweenService:Create(ChipMenu, TweenInfo.new(0.15), {ImageColor3 = Enabled and Theme.ChipSetAccent or Theme.ChipSet}):Play()
 						end
 						config[ChipSetText] = BuildTable
+						getgenv()[ChipSetText] = BuildTable
 						saveConfig()
 						ChipSetCallback(BuildTable)
 					end)
@@ -1577,6 +1578,7 @@ function Material.Load(Config)
 					end)
 
 					config[ChipSetText] = BuildTable
+					getgenv()[ChipSetText] = BuildTable
 					saveConfig()
 					ChipSetCallback(BuildTable)
 
@@ -1643,6 +1645,7 @@ function Material.Load(Config)
 								TweenService:Create(ChipMenu, TweenInfo.new(0.15), {ImageColor3 = Enabled and Theme.ChipSetAccent or Theme.ChipSet}):Play()
 							end
 							config[ChipSetText] = BuildTable
+							getgenv()[ChipSetText] = BuildTable
 							saveConfig()
 							ChipSetCallback(BuildTable)
 						end)
