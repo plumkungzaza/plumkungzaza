@@ -1344,6 +1344,11 @@ function Material.Load(Config)
 				end
 			end)
 
+			if config[DropdownText] then
+				DropdownCallback(config[DropdownText])
+				DropdownTitle.Text = DropdownText..": "..config[DropdownText]
+			end
+
 			table.foreach(DropdownOptions, function(_, Value)
 				local NewButton = CreateNewButton({
 					Text = Value,
@@ -1352,6 +1357,8 @@ function Material.Load(Config)
 
 				NewButton.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
 				NewButton.MouseButton1Down:Connect(function()
+					config[DropdownText] = Value
+					saveConfig()
 					DropdownCallback(Value)
 					DropdownTitle.Text = DropdownText..": "..Value
 				end)
@@ -1412,6 +1419,8 @@ function Material.Load(Config)
 
 					NewButton.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,20)
 					NewButton.MouseButton1Down:Connect(function()
+						config[DropdownText] = Value
+						saveConfig()
 						DropdownCallback(Value)
 						DropdownTitle.Text = DropdownText..": "..Value
 					end)
