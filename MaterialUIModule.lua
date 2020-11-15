@@ -749,14 +749,14 @@ function Material.Load(Config)
 	MainFrame.Position = UDim2.fromScale(0.5,0.5) - UDim2.fromOffset(SizeX/2,SizeY/2)
 	MainFrame.ImageColor3 = Theme.MainFrame
 	MainFrame.Parent = NewInstance
-	
+
 	pcall(function()
 		InputService.InputBegan:Connect(function(input, onGui)
 			if not onGui and (input.KeyCode == Enum.KeyCode[getgenv().togglekey]) then
 				MainFrame.Visible = not MainFrame.Visible
 		   end
-		end)		
-    end)
+		end)
+	end)
 
 	TweenService:Create(MainFrame, TweenInfo.new(1), {Size = UDim2.fromOffset(SizeX,SizeY)}):Play()
 
@@ -2493,6 +2493,10 @@ function Material.Load(Config)
 
 			local SliderDef = math.clamp(tonumber(config[SliderText]) or SliderConfig.Def, SliderMin, SliderMax) or math.clamp(50, SliderMin, SliderMax)
 			local DefaultScale =  (SliderDef - SliderMin) / (SliderMax - SliderMin)
+
+			if config[SliderText] then
+				SliderCallback(config[SliderText])
+			end
 
 			local Slider = Objects.new("Round")
 			Slider.Name = "Slider"
