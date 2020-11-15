@@ -2495,7 +2495,7 @@ function Material.Load(Config)
 			local DefaultScale =  (SliderDef - SliderMin) / (SliderMax - SliderMin)
 
 			if config[SliderText] then
-				SliderCallback(config[SliderText])
+				SliderCallback(tonumber(config[SliderText]))
 			end
 
 			local Slider = Objects.new("Round")
