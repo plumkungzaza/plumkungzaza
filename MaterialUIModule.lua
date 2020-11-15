@@ -1366,12 +1366,14 @@ function Material.Load(Config)
 				if onGui then return; end;
 				if activated and isreallypressed(keyCode, input) then
 					ButtonCallback(true);
+					warn(true)
 				end;
 			end);
 			InputService.InputEnded:Connect(function(input, onGui)
 				if onGui then return; end;
-				if activated and not listening and isreallypressed(keyCode, input) then
+				if activated and and isreallypressed(keyCode, input) then
 					ButtonCallback(false);
+					warn(false)
 				end;
 			end);   
 			--MouseButton1Down
