@@ -752,9 +752,11 @@ function Material.Load(Config)
 
 	pcall(function()
 		InputService.InputBegan:Connect(function(input, onGui)
-			if not onGui and (input.KeyCode == Enum.KeyCode[getgenv().togglekey]) then
-				MainFrame.Visible = not MainFrame.Visible
-		   end
+			pcall(function()
+				if not onGui and (input.KeyCode == Enum.KeyCode[getgenv().togglekey]) then
+					MainFrame.Visible = not MainFrame.Visible
+				end
+		    end)
 		end)
 	end)
 
@@ -1163,16 +1165,18 @@ function Material.Load(Config)
 					--presetKeyCode = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
 					presetKeyCode = config[ButtonText]:gsub("Keyboard", "")
 					Key = presetKeyCode
-					ButtonCallback(presetKeyCode)
+					ButtonCallback(Key)
 					--toggle_key = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
 				else
 					--presetKeyCode = Enum.UserInputType[config[ButtonText]];
 					presetKeyCode = config[ButtonText]
 					Key = presetKeyCode
-					ButtonCallback(presetKeyCode)
+					ButtonCallback(Key)
 					--toggle_key = Enum.UserInputType[config[ButtonText]];
 				end
 			end
+
+			ButtonCallback(Key)
 		
 			local ButtonLabel = Objects.new("Label")
 			ButtonLabel.Text = ButtonText .. ": " .. Key or ButtonText .. ": " .. "None"
