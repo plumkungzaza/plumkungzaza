@@ -1301,18 +1301,14 @@ function Material.Load(Config)
 					--presetKeyCode = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
 					presetKeyCode = config[ButtonText]:gsub("Keyboard", "")
 					Key = presetKeyCode
-					ButtonCallback(Key)
 					--toggle_key = Enum.KeyCode[config[ButtonText]:gsub("Keyboard", "")];
 				else
 					--presetKeyCode = Enum.UserInputType[config[ButtonText]];
 					presetKeyCode = config[ButtonText]
 					Key = presetKeyCode
-					ButtonCallback(Key)
 					--toggle_key = Enum.UserInputType[config[ButtonText]];
 				end
 			end
-
-			ButtonCallback(Key)
 		
 			local ButtonLabel = Objects.new("Label")
 			ButtonLabel.Text = ButtonText .. ": " .. Key or ButtonText .. ": " .. "None"
@@ -1337,7 +1333,7 @@ function Material.Load(Config)
 				MouseButton1 = "Mouse1";
 				MouseButton2 = "Mouse2";
 			};
-			local activated = presetKeyCode and true or false
+			local activated = true
 			local banned = {
 				Return = true;
 				Space = true;
@@ -1349,7 +1345,7 @@ function Material.Load(Config)
 				local key = bind
 				if typeof(key) == "Instance" then
 					if key.UserInputType == Enum.UserInputType.Keyboard and inp.KeyCode == key.KeyCode then
-						return true;
+						return true
 					elseif tostring(key.UserInputType):find("MouseButton") and inp.UserInputType == key.UserInputType then
 						return true
 					end
@@ -1366,16 +1362,17 @@ function Material.Load(Config)
 				MouseButton2 = true;
 			};
 
-			InputService.InputBegan:Connect(function(input, onGui)
-				if onGui then return; end;
+			game:GetService("UserInputService").InputBegan:Connect(function(input, onGui)
+				if onGui then return end
 				if activated and isreallypressed(keyCode, input) then
-					ButtonCallback(true);
+					ButtonCallback(true)
 				end;
 			end);
-			InputService.InputEnded:Connect(function(input, onGui)
-				if onGui then return; end;
-				if activated and not listening and isreallypressed(keyCode, input) then
-					ButtonCallback(false);
+			game:GetService("UserInputService").InputEnded:Connect(function(input, onGui)
+				if onGui then return end
+				--if activated and not listening and isreallypressed(keyCode, input) then
+				if activated and isreallypressed(keyCode, input) then
+					ButtonCallback(true)
 				end;
 			end);   
 			--MouseButton1Down
@@ -2513,6 +2510,7 @@ function Material.Load(Config)
 			local TextFieldText = TextFieldConfig.Text or "nil text field"
 			local TextFieldInputType = TextFieldConfig.Type or TextFieldConfig.type or "Default"
 			local TextFieldCallback = TextFieldConfig.Callback or function() print("nil text field") end
+			local TextFieldText2 = TextFieldConfig.Default
 			local Menu = TextFieldConfig.Menu or {}
 
 			local TextField = Objects.new("Round")
@@ -2541,7 +2539,7 @@ function Material.Load(Config)
 			TextInput.PlaceholderColor3 = Theme.TextFieldAccent
 			TextInput.TextInputType = Enum.TextInputType[TextFieldInputType]
 			TextInput.TextColor3 = Theme.TextFieldAccent
-			TextInput.Text = config[TextFieldText] or ""
+			TextInput.Text = config[TextFieldText] or TextFieldText2 or ""
 			TextInput.Font = Enum.Font.GothamSemibold
 			TextInput.TextSize = 14
 			TextInput.TextTransparency = 1
