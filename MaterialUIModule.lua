@@ -2,9 +2,9 @@ local Player = game:GetService("Players").LocalPlayer
 local Mouse = Player:GetMouse()
 
 getgenv().IsGameHideMouseIcon = false
-if game:GetService("UserInputService").MouseIconEnabled == false then
+if not game:GetService("UserInputService").MouseIconEnabled then
 	getgenv().IsGameHideMouseIcon = true
-	game:GetService("UserInputService").MouseIconEnabled == true
+	game:GetService("UserInputService").MouseIconEnabled = true
 end
 
 local TextService = game:GetService("TextService")
@@ -763,9 +763,9 @@ function Material.Load(Config)
 					MainFrame.Visible = not MainFrame.Visible
 					if getgenv().IsGameHideMouseIcon then
 						if MainFrame.Visible then 
-							game:GetService("UserInputService").MouseIconEnabled == true
+							game:GetService("UserInputService").MouseIconEnabled = true
 						elseif not MainFrame.Visible then
-							game:GetService("UserInputService").MouseIconEnabled == false
+							game:GetService("UserInputService").MouseIconEnabled = false
 						end
 					end
 				end
