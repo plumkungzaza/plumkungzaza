@@ -1371,7 +1371,7 @@ function Material.Load(Config)
 			end);
 			InputService.InputEnded:Connect(function(input, onGui)
 				if onGui then return; end;
-				if activated and and isreallypressed(keyCode, input) then
+				if activated and isreallypressed(keyCode, input) then
 					ButtonCallback(false);
 					warn(false)
 				end;
