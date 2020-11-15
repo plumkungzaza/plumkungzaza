@@ -1,6 +1,12 @@
 local Player = game:GetService("Players").LocalPlayer
 local Mouse = Player:GetMouse()
 
+getgenv().IsGameHideMouseIcon = false
+if game:GetService("UserInputService").MouseIconEnabled == false then
+	getgenv().IsGameHideMouseIcon = true
+	game:GetService("UserInputService").MouseIconEnabled == true
+end
+
 local TextService = game:GetService("TextService")
 local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
@@ -755,6 +761,13 @@ function Material.Load(Config)
 			pcall(function()
 				if not onGui and (input.KeyCode == Enum.KeyCode[getgenv().togglekey]) then
 					MainFrame.Visible = not MainFrame.Visible
+					if getgenv().IsGameHideMouseIcon then
+						if MainFrame.Visible then 
+							game:GetService("UserInputService").MouseIconEnabled == true
+						elseif not MainFrame.Visible then
+							game:GetService("UserInputService").MouseIconEnabled == false
+						end
+					end
 				end
 		    end)
 		end)
