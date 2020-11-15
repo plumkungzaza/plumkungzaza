@@ -749,10 +749,13 @@ function Material.Load(Config)
 	MainFrame.Position = UDim2.fromScale(0.5,0.5) - UDim2.fromOffset(SizeX/2,SizeY/2)
 	MainFrame.ImageColor3 = Theme.MainFrame
 	MainFrame.Parent = NewInstance
-	InputService.InputBegan:Connect(function(input, onGui)
-		if not onGui and (input.KeyCode == Enum.KeyCode[getgenv().togglekey]) then
-			MainFrame.Visible = not MainFrame.Visible
-	   end
+	
+	pcall(function()
+		InputService.InputBegan:Connect(function(input, onGui)
+			if not onGui and (input.KeyCode == Enum.KeyCode[getgenv().togglekey]) then
+				MainFrame.Visible = not MainFrame.Visible
+		   end
+		end)		
     end)
 
 	TweenService:Create(MainFrame, TweenInfo.new(1), {Size = UDim2.fromOffset(SizeX,SizeY)}):Play()
