@@ -2553,7 +2553,9 @@ function Material.Load(Config)
 			TextInput.TextTransparency = 1
 			TextInput.Parent = TextField
 
-			TextFieldCallback(config[TextFieldText])
+			if config[TextFieldText] then
+				TextFieldCallback(config[TextFieldText])
+			end
 
 			TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
 			TweenService:Create(TextEffect, TweenInfo.new(0.5), {BackgroundTransparency = 0.2}):Play()
@@ -2638,7 +2640,10 @@ function Material.Load(Config)
 			TextInput.TextTransparency = 1
 			TextInput.Parent = TextField
 
-			TextFieldCallback(config[TextFieldText])
+			if config[TextFieldText] then
+				TextFieldCallback(config[TextFieldText])
+				warn("LOL")
+			end
 
 			TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
 			TweenService:Create(TextEffect, TweenInfo.new(0.5), {BackgroundTransparency = 0.2}):Play()
