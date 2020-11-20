@@ -2642,7 +2642,6 @@ function Material.Load(Config)
 
 			if config[TextFieldText] then
 				TextFieldCallback(config[TextFieldText])
-				warn("LOL")
 			end
 
 			TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
@@ -2664,7 +2663,8 @@ function Material.Load(Config)
 			end)
 
 			TextInput:GetPropertyChangedSignal("Text"):Connect(function()
-				TextInput.Text = TextInput.Text:gsub('%D+', '');
+				TextInput.Text = TextInput.Text:gsub('[^%d{.}]', '');
+				--('%D+{.}', '')
 			end)
 
 			local MenuAdded, MenuBar = TryAddMenu(TextField, Menu, {
