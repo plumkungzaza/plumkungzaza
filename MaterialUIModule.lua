@@ -2658,7 +2658,7 @@ function Material.Load(Config)
 				TextFieldCallback(TextInput.Text)
 			end)
 
-			TextBox:GetPropertyChangedSignal("Text"):Connect(function()
+			TextInput:GetPropertyChangedSignal("Text"):Connect(function()
 				TextInput.Text = TextInput.Text:gsub('%D+', '');
 			end)
 
