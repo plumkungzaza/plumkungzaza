@@ -2755,7 +2755,7 @@ function Material.Load(Config)
 				saveConfig()
 				TextFieldCallback(TextInput.Text)
 				TextInput.Text = ""
-				TextInput.PlaceholderText = TextFieldText .. ": " .. "TextInput.Text"
+				TextInput.PlaceholderText = TextFieldText .. ": " .. TextInput.Text
 			end)
 
 			TextInput:GetPropertyChangedSignal("Text"):Connect(function()
