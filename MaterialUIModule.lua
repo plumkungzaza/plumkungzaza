@@ -2663,8 +2663,10 @@ function Material.Load(Config)
 			end)
 
 			TextInput:GetPropertyChangedSignal("Text"):Connect(function()
-				TextInput.Text = TextInput.Text:gsub('[^%d{.}]', '');
-				--('%D+{.}', '')
+				TextInput.Text = TextInput.Text:gsub('[^%d%.%-]', '');
+				--[^%d{.}] -- decimal, number
+				--[^%d%.%-] -- decimal, negative, positive, number
+				--('%D+{.}', '') -- number
 			end)
 
 			local MenuAdded, MenuBar = TryAddMenu(TextField, Menu, {
