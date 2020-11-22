@@ -2724,11 +2724,11 @@ function Material.Load(Config)
 
 			local TextInput = Objects.new("Box")
 			TextInput.Name = "Value"
-			TextInput.PlaceholderText = TextFieldText
+			TextInput.PlaceholderText = TextFieldText or TextFieldText .. ": " .. config[TextFieldText] or TextFieldText .. ": " .. TextFieldText2
 			TextInput.PlaceholderColor3 = Theme.TextFieldAccent
 			TextInput.TextInputType = Enum.TextInputType[TextFieldInputType]
 			TextInput.TextColor3 = Theme.TextFieldAccent
-			TextInput.Text = config[TextFieldText] or TextFieldText2 or ""
+			TextInput.Text = ""
 			TextInput.Font = Enum.Font.GothamSemibold
 			TextInput.TextSize = 14
 			TextInput.TextTransparency = 1
