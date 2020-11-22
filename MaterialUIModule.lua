@@ -1206,8 +1206,8 @@ function Material.Load(Config)
 				LeftControl = 'LeftCtrl';
 				LeftShift = 'LShift';
 				RightShift = 'RShift';
-				MouseButton1 = "Mouse1";
-				MouseButton2 = "Mouse2";
+				MouseButton1 = "LMB (Left Mouse Button)";
+				MouseButton2 = "RMB (Right Mouse Button)";
 			};
 			local activated = presetKeyCode and true or false
 			local banned = {
@@ -2601,6 +2601,109 @@ function Material.Load(Config)
 			return TextFieldLibrary
 		end
 
+		function OptionLibrary.TextFieldCustom(TextFieldConfig)
+			local TextFieldText = TextFieldConfig.Text or ""
+			local TextFieldInputType = TextFieldConfig.Type or TextFieldConfig.type or "Default"
+			local TextFieldCallback = TextFieldConfig.Callback or function() print("nil text field") end
+			local TextFieldText2 = TextFieldConfig.Default
+			local Menu = TextFieldConfig.Menu or {}
+
+			local TextField = Objects.new("Round")
+			TextField.Name = "TextField"
+			TextField.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,30)
+			TextField.ImageColor3 = Theme.TextField
+			TextField.ImageTransparency = 1
+			TextField.Parent = PageContentFrame
+
+			local TextEffect = Objects.new("Frame")
+			TextEffect.Name = "Effect"
+			TextEffect.BackgroundTransparency = 1
+			TextEffect.BackgroundColor3 = Theme.TextField
+			TextEffect.Size = UDim2.fromScale(1,0) + UDim2.fromOffset(0,2)
+			TextEffect.Position = UDim2.fromScale(0,1) - UDim2.fromOffset(0,2)
+			TextEffect.Parent = TextField
+
+			local TextShadow = Objects.new("Shadow")
+			TextShadow.ImageColor3 = Theme.TextField
+			TextShadow.ImageTransparency = 1
+			TextShadow.Parent = TextField
+
+			if config[TextFieldText] then
+				getgenv().LoadRealText1 = TextFieldText .. ": " .. config[TextFieldText]
+			end
+			if TextFieldText2 then
+				local LoadText2 = TextFieldText .. ": " .. TextFieldText2
+			end
+
+			local TextInput = Objects.new("Box")
+			TextInput.Name = "Value"
+			if config[TextFieldText] then
+				TextInput.PlaceholderText = getgenv().LoadRealText1
+			elseif not config[TextFieldText] and TextFieldText2 then
+				TextInput.PlaceholderText = LoadText2	
+			elseif not config[TextFieldText] and not TextFieldText2 then
+				TextInput.PlaceholderText = TextFieldText
+			end
+			TextInput.PlaceholderColor3 = Theme.TextFieldAccent
+			TextInput.TextInputType = Enum.TextInputType[TextFieldInputType]
+			TextInput.TextColor3 = Theme.TextFieldAccent
+			TextInput.Text = ""
+			TextInput.Font = Enum.Font.GothamSemibold
+			TextInput.TextSize = 14
+			TextInput.TextTransparency = 1
+			TextInput.Parent = TextField
+
+			if config[TextFieldText] then
+				TextFieldCallback(config[TextFieldText])
+			end
+
+			TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
+			TweenService:Create(TextEffect, TweenInfo.new(0.5), {BackgroundTransparency = 0.2}):Play()
+			TweenService:Create(TextShadow, TweenInfo.new(0.5), {ImageTransparency = 0.7}):Play()
+			TweenService:Create(TextInput, TweenInfo.new(0.5), {TextTransparency = 0.5}):Play()
+
+			TextInput.Focused:Connect(function()
+				TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.7}):Play()
+				TweenService:Create(TextInput, TweenInfo.new(0.5), {TextTransparency = 0}):Play()
+			end)
+
+			TextInput.FocusLost:Connect(function()
+				TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
+				TweenService:Create(TextInput, TweenInfo.new(0.5), {TextTransparency = 0.5}):Play()
+				config[TextFieldText] = TextInput.Text
+				saveConfig()
+				TextFieldCallback(TextInput.Text)
+				TextInput.PlaceholderText = TextFieldText .. ": " .. TextInput.Text
+				wait()
+				TextInput.Text = ""
+			end)
+
+			local MenuAdded, MenuBar = TryAddMenu(TextField, Menu, {
+				SetText = function(Value)
+					TextInput.Text = Value
+					config[TextFieldText] = TextInput.Text
+					saveConfig()
+					TextFieldCallback(TextInput.Text)
+				end
+			})
+
+			if MenuAdded then
+				MenuBar.ImageColor3 = Theme.TextFieldAccent
+			end
+
+			local TextFieldLibrary = {}
+
+			function TextFieldLibrary:SetText(Value)
+				TextInput.Text = Value
+			end
+
+			function TextFieldLibrary:GetText()
+				return TextInput.Text
+			end
+
+			return TextFieldLibrary
+		end
+
 		function OptionLibrary.NumberField(TextFieldConfig)
 			local TextFieldText = TextFieldConfig.Text or ""
 			local TextFieldInputType = TextFieldConfig.Type or TextFieldConfig.type or "Default"
@@ -2722,9 +2825,22 @@ function Material.Load(Config)
 			TextShadow.ImageTransparency = 1
 			TextShadow.Parent = TextField
 
+			if config[TextFieldText] then
+				getgenv().LoadText1 = TextFieldText .. ": " .. config[TextFieldText]
+			end
+			if TextFieldText2 then
+				local LoadText2 = TextFieldText .. ": " .. TextFieldText2
+			end
+
 			local TextInput = Objects.new("Box")
 			TextInput.Name = "Value"
-			TextInput.PlaceholderText = TextFieldText or TextFieldText .. ": " .. config[TextFieldText] or TextFieldText .. ": " .. TextFieldText2
+			if config[TextFieldText] then
+				TextInput.PlaceholderText = getgenv().LoadText1
+			elseif not config[TextFieldText] and TextFieldText2 then
+				TextInput.PlaceholderText = LoadText2	
+			elseif not config[TextFieldText] and not TextFieldText2 then
+				TextInput.PlaceholderText = TextFieldText
+			end
 			TextInput.PlaceholderColor3 = Theme.TextFieldAccent
 			TextInput.TextInputType = Enum.TextInputType[TextFieldInputType]
 			TextInput.TextColor3 = Theme.TextFieldAccent
@@ -2754,8 +2870,9 @@ function Material.Load(Config)
 				config[TextFieldText] = TextInput.Text
 				saveConfig()
 				TextFieldCallback(TextInput.Text)
-				TextInput.Text = ""
 				TextInput.PlaceholderText = TextFieldText .. ": " .. TextInput.Text
+				wait()
+				TextInput.Text = ""
 			end)
 
 			TextInput:GetPropertyChangedSignal("Text"):Connect(function()
