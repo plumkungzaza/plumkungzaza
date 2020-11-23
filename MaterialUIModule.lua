@@ -2825,19 +2825,12 @@ function Material.Load(Config)
 			TextShadow.ImageTransparency = 1
 			TextShadow.Parent = TextField
 
-			if config[TextFieldText] then
-				getgenv().LoadText1 = TextFieldText .. ": " .. config[TextFieldText]
-			end
-			if TextFieldText2 then
-				local LoadText2 = TextFieldText .. ": " .. TextFieldText2
-			end
-
 			local TextInput = Objects.new("Box")
 			TextInput.Name = "Value"
 			if config[TextFieldText] then
-				TextInput.PlaceholderText = getgenv().LoadText1
+				TextInput.PlaceholderText = TextFieldText .. ": " .. config[TextFieldText]
 			elseif not config[TextFieldText] and TextFieldText2 then
-				TextInput.PlaceholderText = LoadText2	
+				TextInput.PlaceholderText = TextFieldText .. ": " .. TextFieldText2
 			elseif not config[TextFieldText] and not TextFieldText2 then
 				TextInput.PlaceholderText = TextFieldText
 			end
