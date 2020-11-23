@@ -8,6 +8,24 @@ local InputService = game:GetService("UserInputService")
 local CoreGuiService = game:GetService("CoreGui")
 local ContentService = game:GetService("ContentProvider")
 
+getgenv().SetConnectTable = function(getkey)
+	table.foreach(getkey, function(K)
+		getkey[K]:Connect()
+	end)
+end
+
+getgenv().SetDisconnectTable = function(getkey)
+	table.foreach(getkey, function(K)
+		getkey[K]:Disconnect()
+	end)
+end
+
+getgenv().SetBoolTable = function(getkey, getvalue)
+	table.foreach(getkey, function(K, V)
+		getkey[K] = getvalue
+	end)
+end
+
 local Themes = {
 	Light = {
 		MainFrame = Color3.fromRGB(255,255,255),
@@ -745,6 +763,10 @@ function Material.Load(Config)
 			for i,v in pairs(getgenv().SetBoolFalse) do
 				v = false
 			end
+			
+			getgenv().SetDisconnectTable(getgenv().DestroyConnections)
+			getgenv().SetBoolTable(getgenv().SetBoolTrue, true)
+			getgenv().SetBoolTable(getgenv().SetBoolFalse, false)
 		end)
 	end
 
