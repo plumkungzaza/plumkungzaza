@@ -2829,7 +2829,7 @@ function Material.Load(Config)
 				getgenv().LoadText1 = TextFieldText .. ": " .. config[TextFieldText]
 			end
 			if TextFieldText2 then
-				local LoadText2 = TextFieldText .. ": " .. TextFieldText2
+				getgenv().LoadText2 = TextFieldText .. ": " .. TextFieldText2
 			end
 
 			local TextInput = Objects.new("Box")
@@ -2837,7 +2837,7 @@ function Material.Load(Config)
 			if config[TextFieldText] then
 				TextInput.PlaceholderText = getgenv().LoadText1
 			elseif not config[TextFieldText] and TextFieldText2 then
-				TextInput.PlaceholderText = LoadText2	
+				TextInput.PlaceholderText = getgenv().LoadText2	
 			elseif not config[TextFieldText] and not TextFieldText2 then
 				TextInput.PlaceholderText = TextFieldText
 			end
