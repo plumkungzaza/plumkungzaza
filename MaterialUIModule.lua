@@ -735,6 +735,17 @@ function Material.Load(Config)
 
 	if OldInstance then
 		OldInstance:Destroy()
+		pcall(function()
+			for i,v in pairs(getgenv().DestroyConnections) do
+				v:Disconnect()
+			end
+			for i,v in pairs(getgenv().SetBoolTrue) do
+				v = true
+			end
+			for i,v in pairs(getgenv().SetBoolFalse) do
+				v = false
+			end
+		end)
 	end
 
 	local NewInstance = Objects.new("ScreenGui")
@@ -2829,7 +2840,7 @@ function Material.Load(Config)
 				getgenv().LoadText1 = TextFieldText .. ": " .. config[TextFieldText]
 			end
 			if TextFieldText2 then
-				getgenv().LoadText2 = TextFieldText .. ": " .. TextFieldText2
+				local LoadText2 = TextFieldText .. ": " .. TextFieldText2
 			end
 
 			local TextInput = Objects.new("Box")
@@ -2837,7 +2848,7 @@ function Material.Load(Config)
 			if config[TextFieldText] then
 				TextInput.PlaceholderText = getgenv().LoadText1
 			elseif not config[TextFieldText] and TextFieldText2 then
-				TextInput.PlaceholderText = getgenv().LoadText2	
+				TextInput.PlaceholderText = LoadText2	
 			elseif not config[TextFieldText] and not TextFieldText2 then
 				TextInput.PlaceholderText = TextFieldText
 			end
