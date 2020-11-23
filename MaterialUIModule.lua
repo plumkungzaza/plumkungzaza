@@ -2628,22 +2628,16 @@ function Material.Load(Config)
 			TextShadow.ImageTransparency = 1
 			TextShadow.Parent = TextField
 
-			if config[TextFieldText] then
-				getgenv().LoadRealText1 = TextFieldText .. ": " .. config[TextFieldText]
-			end
-			if TextFieldText2 then
-				local LoadText2 = TextFieldText .. ": " .. TextFieldText2
-			end
-
 			local TextInput = Objects.new("Box")
 			TextInput.Name = "Value"
 			if config[TextFieldText] then
-				TextInput.PlaceholderText = getgenv().LoadRealText1
+				TextInput.PlaceholderText = TextFieldText .. ": " .. config[TextFieldText]
 			elseif not config[TextFieldText] and TextFieldText2 then
-				TextInput.PlaceholderText = LoadText2	
+				TextInput.PlaceholderText = TextFieldText .. ": " .. TextFieldText2
 			elseif not config[TextFieldText] and not TextFieldText2 then
 				TextInput.PlaceholderText = TextFieldText
-			end
+            end
+            
 			TextInput.PlaceholderColor3 = Theme.TextFieldAccent
 			TextInput.TextInputType = Enum.TextInputType[TextFieldInputType]
 			TextInput.TextColor3 = Theme.TextFieldAccent
@@ -2651,11 +2645,13 @@ function Material.Load(Config)
 			TextInput.Font = Enum.Font.GothamSemibold
 			TextInput.TextSize = 14
 			TextInput.TextTransparency = 1
-			TextInput.Parent = TextField
-
-			if config[TextFieldText] then
+            TextInput.Parent = TextField
+            
+            if config[TextFieldText] then
 				TextFieldCallback(config[TextFieldText])
-			end
+			elseif not config[TextFieldText] and TextFieldText2 then
+				TextFieldCallback(TextFieldText2)
+			end      
 
 			TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
 			TweenService:Create(TextEffect, TweenInfo.new(0.5), {BackgroundTransparency = 0.2}):Play()
@@ -2833,7 +2829,8 @@ function Material.Load(Config)
 				TextInput.PlaceholderText = TextFieldText .. ": " .. TextFieldText2
 			elseif not config[TextFieldText] and not TextFieldText2 then
 				TextInput.PlaceholderText = TextFieldText
-			end
+            end
+            
 			TextInput.PlaceholderColor3 = Theme.TextFieldAccent
 			TextInput.TextInputType = Enum.TextInputType[TextFieldInputType]
 			TextInput.TextColor3 = Theme.TextFieldAccent
@@ -2841,11 +2838,13 @@ function Material.Load(Config)
 			TextInput.Font = Enum.Font.GothamSemibold
 			TextInput.TextSize = 14
 			TextInput.TextTransparency = 1
-			TextInput.Parent = TextField
-
-			if config[TextFieldText] then
+            TextInput.Parent = TextField
+            
+            if config[TextFieldText] then
 				TextFieldCallback(config[TextFieldText])
-			end
+			elseif not config[TextFieldText] and TextFieldText2 then
+				TextFieldCallback(TextFieldText2)
+			end      
 
 			TweenService:Create(TextField, TweenInfo.new(0.5), {ImageTransparency = 0.8}):Play()
 			TweenService:Create(TextEffect, TweenInfo.new(0.5), {BackgroundTransparency = 0.2}):Play()
